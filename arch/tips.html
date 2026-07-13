@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>인형뽑기 아카이브 - Tips</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: 둥근모꼴 및 Noto Sans KR -->
+  <link rel="stylesheet" href="https://cdn.tailwindcss.com/gh/projectnoonnu/noonfonts_2105_2@1.0/DungGeunMo.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #fcfbfa; /* 부드럽고 따뜻한 스크랩북용 미색 배경 */
+    }
+    .font-retro {
+      font-family: 'DungGeunMo', monospace;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- 
+    ========================================================================
+    [COPY-PASTE START] 확정된 네비게이션 컴포넌트를 그대로 적용했습니다.
+    ========================================================================
+  -->
+  <header class="fixed top-0 left-0 w-full h-[64px] bg-white/90 backdrop-blur-md border-b border-gray-100 z-[100] px-6 flex items-center">
+    <div class="max-w-7xl mx-auto w-full flex justify-between items-center relative">
+      
+      <!-- 로고 영역 -->
+      <a href="home.html" class="font-retro text-xl tracking-wider text-gray-800 select-none hover:opacity-80 transition-opacity">
+        🧸 archive
+      </a>
+      
+      <!-- 데스크톱 네비게이션 메뉴 (md 이상에서만 노출) -->
+      <nav class="hidden md:flex space-x-8 text-sm font-semibold text-gray-500">
+        <!-- data-page 속성에 매칭될 파일명을 적어두면 스크립트가 알아서 활성화 해줍니다. -->
+        <a href="home.html" data-page="home" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Home</a>
+        <a href="showcase.html" data-page="showcase" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Showcase</a>
+        <a href="tour.html" data-page="tour" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Shop Tour</a>
+        <a href="tips.html" data-page="tips" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Tips</a>
+        <a href="play.html" data-page="play" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Play Simulator</a>
+      </nav>
+
+      <!-- 모바일용 햄버거 토글 버튼 (md 미만에서 노출) -->
+      <button id="custom-hamburger-btn" class="md:hidden text-gray-600 focus:outline-none p-1.5 hover:bg-gray-50 rounded-lg transition-colors" aria-label="메뉴 토글">
+        <svg class="w-6 h-6 transition-transform duration-300" id="hamburger-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <!-- 기본 삼선 아이콘 -->
+          <path id="hamburger-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+
+      <!-- 모바일 오버레이 풀다운 메뉴 -->
+      <div id="custom-mobile-menu" class="hidden absolute top-[48px] right-0 w-52 bg-white border border-gray-100 rounded-2xl flex flex-col p-3 space-y-1 shadow-xl md:hidden z-50">
+        <a href="home.html" data-page="home" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Home</a>
+        <a href="showcase.html" data-page="showcase" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Showcase</a>
+        <a href="tour.html" data-page="tour" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Shop Tour</a>
+        <a href="tips.html" data-page="tips" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Tips</a>
+        <a href="play.html" data-page="play" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Play Simulator</a>
+      </div>
+    </div>
+  </header>
+  <!-- 
+    ========================================================================
+    [COPY-PASTE END] 여기까지가 컴포넌트 영역입니다.
+    ========================================================================
+  -->
+
+  <!-- 메인 콘텐츠 영역 -->
+  <main class="relative max-w-5xl mx-auto w-full px-6 pt-28 pb-16 flex-1">
+    <!-- 모눈종이 다이어리 격자 배경 느낌 연출 -->
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.015)_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none"></div>
+
+    <!-- 섹션 헤더 -->
+    <div class="mb-14 text-center relative z-10">
+      <h2 class="font-retro text-3xl text-gray-800 tracking-wider inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[6px] after:bg-emerald-200 after:-z-10">Claw Machine Tips</h2>
+      <p class="text-xs text-gray-400 mt-2">지나다니며 옆에서 곁눈질로 터득한 소소하지만 확실한 꿀팁</p>
+    </div>
+
+    <!-- 다이어리 보드판 (각 꿀팁 메모지 스크랩 콜라주 배치) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10 pb-12 select-none">
+      
+      <!-- Tip 01: 노란색 체크 모눈 메모지 -->
+      <div class="relative bg-amber-50/90 p-6 rounded-lg shadow-md border border-amber-200/50 -rotate-3 hover:rotate-0 hover:scale-[1.03] transition-all duration-300 max-w-sm mx-auto w-full md:-translate-y-4"
+           style="background-image: radial-gradient(#fcd34d 0.5px, transparent 0.5px); background-size: 14px 14px;">
+        <!-- 마스킹 테이프 데코 -->
+        <div class="absolute -top-3 left-1/3 w-20 h-6 bg-yellow-200/60 -rotate-12 border-l border-r border-dashed border-yellow-300 backdrop-blur-sm"></div>
+        
+        <div class="flex items-center gap-2 mb-3 mt-2">
+          <span class="font-retro text-sm text-amber-600 bg-amber-100/80 px-2 py-0.5 rounded">01</span>
+          <h3 class="text-xs font-bold text-gray-800 font-retro">기계 교란하기 (집게 돌리기)</h3>
+        </div>
+        <p class="text-[11px] text-gray-600 leading-relaxed font-sans">집게를 빙글빙글 계속 흔들며 돌려준다. 집게가 심하게 요동치며 혼란스러울 때 타이밍을 맞춰서 내리면, 의외로 집게가 강하게 오므라들 때가 있다.</p>
+        
+        <!-- 하트 스티커 장식 -->
+        <div class="absolute -bottom-3 -right-2 w-7 h-7 fill-pink-400/80 drop-shadow-sm rotate-12">
+          <svg viewBox="0 0 24 24"><path d="M12 4.435c-1.989-5.399-12-4.597-12 3.568 0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-8.118-10-8.999-12-3.568z"/></svg>
+        </div>
+      </div>
+
+      <!-- Tip 02: 핑크빛 폴라로이드 감성 메모 카드 -->
+      <div class="relative bg-rose-50/90 p-6 pb-8 rounded-lg shadow-md border border-rose-200/50 rotate-3 hover:rotate-0 hover:scale-[1.03] transition-all duration-300 max-w-sm mx-auto w-full md:translate-y-2">
+        <!-- 핑크 반투명 밴드 테이프 -->
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-5 bg-pink-300/40 rotate-2 border-l border-r border-dashed border-pink-400/50 backdrop-blur-sm"></div>
+        
+        <div class="flex items-center gap-2 mb-3 mt-1">
+          <span class="font-retro text-sm text-pink-600 bg-pink-100/80 px-2 py-0.5 rounded">02</span>
+          <h3 class="text-xs font-bold text-gray-800 font-retro">탑을 수북하게 쌓아서 밀기</h3>
+        </div>
+        <p class="text-[11px] text-gray-600 leading-relaxed font-sans">출구 근처에 다른 인형들을 쌓아 높은 탑을 형성하는 게 핵심이다. 직접 들어 올릴 수 없을 정도로 무거우면, 옆으로 밀어서 탑 위로 굴려 떨어뜨리는 방법을 사용하자.</p>
+        
+        <!-- 노랑 미니별 데코 -->
+        <div class="absolute top-2 right-2 w-5 h-5 fill-yellow-400 drop-shadow-sm animate-bounce">
+          <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+        </div>
+      </div>
+
+      <!-- Tip 03: 빈티지 민트 모눈 메모지 -->
+      <div class="relative bg-emerald-50/90 p-6 rounded-lg shadow-md border border-emerald-200/50 -rotate-2 hover:rotate-0 hover:scale-[1.03] transition-all duration-300 max-w-sm mx-auto w-full md:-translate-y-2"
+           style="background-image: linear-gradient(rgba(110, 231, 183, 0.15) 1px, transparent 1px); background-size: 100% 18px;">
+        <!-- 푸른빛 테이프 데코 -->
+        <div class="absolute -top-4 left-1/4 w-14 h-6 bg-teal-200/50 rotate-6 border-l border-r border-dashed border-teal-300"></div>
+        
+        <div class="flex items-center gap-2 mb-3 mt-2">
+          <span class="font-retro text-sm text-emerald-600 bg-emerald-100/80 px-2 py-0.5 rounded">03</span>
+          <h3 class="text-xs font-bold text-gray-800 font-retro">박스형 전용 고무집게 공략</h3>
+        </div>
+        <p class="text-[11px] text-gray-600 leading-relaxed font-sans">끝부분에 고무 코팅이 부착되어 있는 집게 기계를 유심히 관찰하자. 박스 형태의 틈새를 확실히 끼워 누르면, 마찰력 덕분에 쉽게 밀려 올라오거나 잡힌다.</p>
+      </div>
+
+      <!-- Tip 04: 연보라빛 스크랩 카드 -->
+      <div class="relative bg-purple-50/90 p-6 rounded-lg shadow-md border border-purple-200/50 rotate-4 hover:rotate-0 hover:scale-[1.03] transition-all duration-300 max-w-sm mx-auto w-full md:translate-y-4">
+        <!-- 상단 라인 장식 -->
+        <div class="absolute top-0 left-0 w-full h-1 bg-purple-200 rounded-t-lg"></div>
+        <!-- 핀 데코 -->
+        <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-red-400 rounded-full shadow border border-white"></div>
+        
+        <div class="flex items-center gap-2 mb-3 mt-3">
+          <span class="font-retro text-sm text-purple-600 bg-purple-100/80 px-2 py-0.5 rounded">04</span>
+          <h3 class="text-xs font-bold text-gray-800 font-retro">대형 인형은 고리를 표적 삼기</h3>
+        </div>
+        <p class="text-[11px] text-gray-600 leading-relaxed font-sans">몸통 전체가 묵직해서 아무리 들어 올려도 집게가 풀리는 경우, 머리 위에 달린 끈이나 열쇠고리에 집게 하나를 정확히 꿰어 올리는 고리 노치 전술을 쓴다.</p>
+        
+        <!-- 꽃 장식 -->
+        <div class="absolute -bottom-2 left-2 w-5 h-5 fill-purple-300/80">
+          <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
+        </div>
+      </div>
+
+      <!-- Tip 05: 스카이블루 라벨 그리드 노트 -->
+      <div class="relative bg-sky-50/90 p-6 rounded-lg shadow-md border border-sky-200/50 -rotate-4 hover:rotate-0 hover:scale-[1.03] transition-all duration-300 max-w-sm mx-auto w-full lg:translate-x-4 md:translate-y-2"
+           style="background-image: radial-gradient(#bae6fd 0.5px, transparent 0.5px); background-size: 12px 12px;">
+        <!-- 푸른 테이프 장식 -->
+        <div class="absolute -top-3 right-8 w-16 h-5 bg-sky-200/60 rotate-45 border-t border-b border-dashed border-sky-300"></div>
+        
+        <div class="flex items-center gap-2 mb-3 mt-1">
+          <span class="font-retro text-sm text-sky-600 bg-sky-100/80 px-2 py-0.5 rounded">05</span>
+          <h3 class="text-xs font-bold text-gray-800 font-retro">마인드 컨트롤 (욕심 비우기)</h3>
+        </div>
+        <p class="text-[11px] text-gray-600 leading-relaxed font-sans">한 번에 무조건 기계 밖으로 뽑겠다는 마음은 지출만 키운다. 한 턴 쉬어가며 인형을 살짝 굴려 입구 쪽으로 슬금슬금 배치를 옮겨놓는 정밀한 큰 그림 설계가 필수다.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 푸터 영역 -->
+  <footer class="py-6 text-center text-xs text-gray-400 border-t border-gray-100 bg-white">
+    &copy; 2026 INHYEONGBPOBGI ARCHIVE. ALL RIGHTS RESERVED.
+  </footer>
+
+  <!-- 
+    ========================================================================
+    [네비게이션 작동용 필수 자바스크립트 코드 - 복사본 유지]
+    ========================================================================
+  -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburgerBtn = document.getElementById("custom-hamburger-btn");
+      const mobileMenu = document.getElementById("custom-mobile-menu");
+      const hamburgerPath = document.getElementById("hamburger-path");
+
+      // 1. 모바일 햄버거 토글 열기 / 닫기 기능
+      hamburgerBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle("hidden");
+        
+        // 아이콘을 햄버거(☰) <=> X 마크로 교체
+        if (mobileMenu.classList.contains("hidden")) {
+          hamburgerPath.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+        } else {
+          hamburgerPath.setAttribute("d", "M6 18L18 6M6 6l12 12");
+        }
+      });
+
+      // 바깥 영역 클릭 시 모바일 메뉴 자동으로 닫기
+      document.addEventListener("click", function (e) {
+        if (!mobileMenu.classList.contains("hidden") && !hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add("hidden");
+          hamburgerPath.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+        }
+      });
+
+      // 2. [핵심] 현재 접속한 페이지 자동 활성화 감지 시스템
+      const path = window.location.pathname;
+      let currentPageName = path.split("/").pop();
+      
+      if (currentPageName === "" || currentPageName === "index.html") {
+        currentPageName = "home.html";
+      }
+
+      const activeKey = currentPageName.replace(".html", "");
+
+      // 데스크톱 링크 활성화 하이라이트 부여
+      const desktopItems = document.querySelectorAll(".nav-item");
+      desktopItems.forEach(item => {
+        if (item.getAttribute("data-page") === activeKey) {
+          item.classList.add("text-pink-500", "border-pink-500");
+          item.classList.remove("text-gray-500", "border-transparent");
+        }
+      });
+
+      // 모바일 링크 활성화 하이라이트 부여
+      const mobileItems = document.querySelectorAll(".mobile-nav-item");
+      mobileItems.forEach(item => {
+        if (item.getAttribute("data-page") === activeKey) {
+          item.classList.add("bg-pink-50", "text-pink-500");
+          item.classList.remove("text-gray-600");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

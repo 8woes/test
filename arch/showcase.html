@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>인형뽑기 아카이브 - Showcase</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: 둥근모꼴 및 Noto Sans KR -->
+  <link rel="stylesheet" href="https://cdn.tailwindcss.com/gh/projectnoonnu/noonfonts_2105_2@1.0/DungGeunMo.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f8fafc;
+    }
+    .font-retro {
+      font-family: 'DungGeunMo', monospace;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between">
+
+  <!-- 
+    ========================================================================
+    [COPY-PASTE START] 확정된 네비게이션 컴포넌트를 그대로 적용했습니다.
+    ========================================================================
+  -->
+  <header class="fixed top-0 left-0 w-full h-[64px] bg-white/90 backdrop-blur-md border-b border-gray-100 z-[100] px-6 flex items-center">
+    <div class="max-w-7xl mx-auto w-full flex justify-between items-center relative">
+      
+      <!-- 로고 영역 -->
+      <a href="home.html" class="font-retro text-xl tracking-wider text-gray-800 select-none hover:opacity-80 transition-opacity">
+        🧸 archive
+      </a>
+      
+      <!-- 데스크톱 네비게이션 메뉴 (md 이상에서만 노출) -->
+      <nav class="hidden md:flex space-x-8 text-sm font-semibold text-gray-500">
+        <!-- data-page 속성에 매칭될 파일명을 적어두면 스크립트가 알아서 활성화 해줍니다. -->
+        <a href="home.html" data-page="home" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Home</a>
+        <a href="showcase.html" data-page="showcase" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Showcase</a>
+        <a href="tour.html" data-page="tour" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Shop Tour</a>
+        <a href="tips.html" data-page="tips" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Tips</a>
+        <a href="play.html" data-page="play" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Play Simulator</a>
+      </nav>
+
+      <!-- 모바일용 햄버거 토글 버튼 (md 미만에서 노출) -->
+      <button id="custom-hamburger-btn" class="md:hidden text-gray-600 focus:outline-none p-1.5 hover:bg-gray-50 rounded-lg transition-colors" aria-label="메뉴 토글">
+        <svg class="w-6 h-6 transition-transform duration-300" id="hamburger-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <!-- 기본 삼선 아이콘 -->
+          <path id="hamburger-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+
+      <!-- 모바일 오버레이 풀다운 메뉴 -->
+      <div id="custom-mobile-menu" class="hidden absolute top-[48px] right-0 w-52 bg-white border border-gray-100 rounded-2xl flex flex-col p-3 space-y-1 shadow-xl md:hidden z-50">
+        <a href="home.html" data-page="home" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Home</a>
+        <a href="showcase.html" data-page="showcase" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Showcase</a>
+        <a href="tour.html" data-page="tour" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Shop Tour</a>
+        <a href="tips.html" data-page="tips" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Tips</a>
+        <a href="play.html" data-page="play" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Play Simulator</a>
+      </div>
+    </div>
+  </header>
+  <!-- 
+    ========================================================================
+    [COPY-PASTE END] 여기까지가 컴포넌트 영역입니다.
+    ========================================================================
+  -->
+
+  <!-- 메인 콘텐츠 영역 -->
+  <main class="max-w-6xl mx-auto w-full px-6 pt-28 pb-16 flex-1">
+    
+    <!-- 섹션 헤더 -->
+    <div class="mb-16 text-center">
+      <h2 class="font-retro text-3xl text-gray-800 tracking-wider inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[6px] after:bg-pink-200 after:-z-10">Showcase</h2>
+      <p class="text-xs text-gray-400 mt-2">내가 소소하게 모아온 소중한 친구들을 보여줄게</p>
+    </div>
+
+    <!-- 그리드 레이아웃 (배경 상자 없이 인형 자체만 깔끔하게 강조) -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16">
+      
+      <!-- 1. 핑구 -->
+      <div class="flex flex-col items-center group">
+        <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
+          <img src="image-removebg-preview.png" alt="핑구" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">핑구</div>
+        <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">엄청 큰 인형인데 한 번에 뽑음</div>
+      </div>
+
+      <!-- 2. 치이카와 -->
+      <div class="flex flex-col items-center group">
+        <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
+          <img src="인형_곰팅.png" alt="치이카와" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">치이카와</div>
+        <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">사실 친구가 뽑아줌</div>
+      </div>
+
+      <!-- 3. 키티 -->
+      <div class="flex flex-col items-center group">
+        <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
+          <img src="인형_키티.png" alt="키티" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">키티</div>
+        <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">친구가 한 번에 뽑아줌</div>
+      </div>
+
+      <!-- 4. 한교곰 -->
+      <div class="flex flex-col items-center group">
+        <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
+          <img src="인형_한교곰.png" alt="한교곰" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">한교곰</div>
+        <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">친구가 뽑아줌</div>
+      </div>
+
+      <!-- 5. 루피시계 -->
+      <div class="flex flex-col items-center group">
+        <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
+          <img src="인형_루피시계.png" alt="루피시계" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">루피시계</div>
+        <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">친구가 뽑아줌</div>
+      </div>
+
+      <!-- 6. 만두 -->
+      <div class="flex flex-col items-center group">
+        <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
+          <img src="인형_만두.png" alt="만두" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">만두</div>
+        <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">500원에 뽑음</div>
+      </div>
+
+      <!-- 7. 베개인형 -->
+      <div class="flex flex-col items-center group">
+        <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
+          <img src="인형_시노부.png" alt="베개인형" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">베개인형</div>
+        <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">친구가 뽑아줌</div>
+      </div>
+
+      <!-- 8. 우사기 -->
+      <div class="flex flex-col items-center group">
+        <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
+          <img src="인형_우사기.png" alt="우사기" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">우사기</div>
+        <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">지퍼도 열림</div>
+      </div>
+
+      <!-- 9. 시계 (jpg에서 png로 자동 폴백 처리) -->
+      <div class="flex flex-col items-center group">
+        <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
+          <img src="인형_시계.jpg" alt="시계" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300" onerror="if(this.src.indexOf('.jpg') !== -1) this.src=this.src.replace('.jpg', '.png');">
+        </div>
+        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">시계</div>
+        <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">500원 한번에 뽑음</div>
+      </div>
+
+      <!-- 10. 바나나 -->
+      <div class="flex flex-col items-center group">
+        <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
+          <img src="인형_바나나.png" alt="바나나" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">바나나</div>
+        <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">친구가 뽑아줌</div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 푸터 영역 -->
+  <footer class="py-6 text-center text-xs text-gray-400 border-t border-gray-100 bg-white">
+    &copy; 2026 INHYEONGBPOBGI ARCHIVE. ALL RIGHTS RESERVED.
+  </footer>
+
+  <!-- 
+    ========================================================================
+    [네비게이션 작동용 필수 자바스크립트 코드 - 복사본 유지]
+    ========================================================================
+  -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburgerBtn = document.getElementById("custom-hamburger-btn");
+      const mobileMenu = document.getElementById("custom-mobile-menu");
+      const hamburgerPath = document.getElementById("hamburger-path");
+
+      // 1. 모바일 햄버거 토글 열기 / 닫기 기능
+      hamburgerBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle("hidden");
+        
+        // 아이콘을 햄버거(☰) <=> X 마크로 교체
+        if (mobileMenu.classList.contains("hidden")) {
+          hamburgerPath.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+        } else {
+          hamburgerPath.setAttribute("d", "M6 18L18 6M6 6l12 12");
+        }
+      });
+
+      // 바깥 영역 클릭 시 모바일 메뉴 자동으로 닫기
+      document.addEventListener("click", function (e) {
+        if (!mobileMenu.classList.contains("hidden") && !hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add("hidden");
+          hamburgerPath.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+        }
+      });
+
+      // 2. [핵심] 현재 접속한 페이지 자동 활성화 감지 시스템
+      const path = window.location.pathname;
+      let currentPageName = path.split("/").pop();
+      
+      if (currentPageName === "" || currentPageName === "index.html") {
+        currentPageName = "home.html";
+      }
+
+      const activeKey = currentPageName.replace(".html", "");
+
+      // 데스크톱 링크 활성화 하이라이트 부여
+      const desktopItems = document.querySelectorAll(".nav-item");
+      desktopItems.forEach(item => {
+        if (item.getAttribute("data-page") === activeKey) {
+          item.classList.add("text-pink-500", "border-pink-500");
+          item.classList.remove("text-gray-500", "border-transparent");
+        }
+      });
+
+      // 모바일 링크 활성화 하이라이트 부여
+      const mobileItems = document.querySelectorAll(".mobile-nav-item");
+      mobileItems.forEach(item => {
+        if (item.getAttribute("data-page") === activeKey) {
+          item.classList.add("bg-pink-50", "text-pink-500");
+          item.classList.remove("text-gray-600");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

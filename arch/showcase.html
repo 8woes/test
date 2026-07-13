@@ -20,13 +20,27 @@
     .font-retro {
       font-family: 'DungGeunMo', monospace;
     }
+    /* 하트 바운스 애니메이션 */
+    @keyframes heart-pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    .heart-active svg {
+      animation: heart-pop 0.3s ease-in-out;
+      color: #ec4899; /* text-pink-500 */
+      fill: #ec4899;
+    }
+    .heart-active .like-count {
+      color: #ec4899 !important;
+    }
   </style>
 </head>
 <body class="bg-slate-50 min-h-screen flex flex-col justify-between">
 
   <!-- 
     ========================================================================
-    [COPY-PASTE START] 확정된 네비게이션 컴포넌트를 그대로 적용했습니다.
+    [COPY-PASTE START] 여기서부터 복사해서 사용하고자 하는 페이지의 <body> 태그 바로 아래에 넣으세요.
     ========================================================================
   -->
   <header class="fixed top-0 left-0 w-full h-[64px] bg-white/90 backdrop-blur-md border-b border-gray-100 z-[100] px-6 flex items-center">
@@ -65,6 +79,70 @@
       </div>
     </div>
   </header>
+
+  <!-- 
+    컴포넌트 작동용 필수 자바스크립트 소스코드 
+    여러 페이지에 복사할 때 </body> 바로 위에 같이 복사해서 넣으세요.
+  -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburgerBtn = document.getElementById("custom-hamburger-btn");
+      const mobileMenu = document.getElementById("custom-mobile-menu");
+      const hamburgerPath = document.getElementById("hamburger-path");
+
+      // 1. 모바일 햄버거 토글 열기 / 닫기 기능
+      hamburgerBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle("hidden");
+        
+        // 아이콘을 햄버거(☰) <=> X 마크로 교체
+        if (mobileMenu.classList.contains("hidden")) {
+          hamburgerPath.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+        } else {
+          hamburgerPath.setAttribute("d", "M6 18L18 6M6 6l12 12");
+        }
+      });
+
+      // 바깥 영역 클릭 시 모바일 메뉴 자동으로 닫기
+      document.addEventListener("click", function (e) {
+        if (!mobileMenu.classList.contains("hidden") && !hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add("hidden");
+          hamburgerPath.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+        }
+      });
+
+      // 2. [핵심] 현재 접속한 페이지 자동 활성화 감지 시스템
+      // 브라우저 주소창 경로(URL)에서 파일명을 분석합니다. (예: index.html, showcase.html 등)
+      const path = window.location.pathname;
+      let currentPageName = path.split("/").pop();
+      
+      // 만약 경로가 빈값(도메인 루트)이거나 index.html 이라면 home으로 매칭시킵니다.
+      if (currentPageName === "" || currentPageName === "index.html") {
+        currentPageName = "home.html";
+      }
+
+      // 확장자 (.html)를 제외한 오리지널 키워드 추출 (예: 'home', 'showcase' 등)
+      const activeKey = currentPageName.replace(".html", "");
+
+      // 데스크톱 링크 활성화 하이라이트 부여
+      const desktopItems = document.querySelectorAll(".nav-item");
+      desktopItems.forEach(item => {
+        if (item.getAttribute("data-page") === activeKey) {
+          item.classList.add("text-pink-500", "border-pink-500");
+          item.classList.remove("text-gray-500", "border-transparent");
+        }
+      });
+
+      // 모바일 링크 활성화 하이라이트 부여
+      const mobileItems = document.querySelectorAll(".mobile-nav-item");
+      mobileItems.forEach(item => {
+        if (item.getAttribute("data-page") === activeKey) {
+          item.classList.add("bg-pink-50", "text-pink-500");
+          item.classList.remove("text-gray-600");
+        }
+      });
+    });
+  </script>
   <!-- 
     ========================================================================
     [COPY-PASTE END] 여기까지가 컴포넌트 영역입니다.
@@ -88,7 +166,15 @@
         <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
           <img src="image-removebg-preview.png" alt="핑구" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
         </div>
-        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">핑구</div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro tracking-wide">핑구</div>
+          <button class="like-btn text-gray-300 hover:text-pink-500 transition-colors focus:outline-none flex items-center gap-0.5 text-pink-500/10" data-liked="false" data-id="pingu">
+            <svg class="w-5 h-5 fill-current stroke-current" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span class="like-count text-xs text-gray-400 font-mono">24</span>
+          </button>
+        </div>
         <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">엄청 큰 인형인데 한 번에 뽑음</div>
       </div>
 
@@ -97,7 +183,15 @@
         <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
           <img src="인형_곰팅.png" alt="치이카와" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
         </div>
-        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">치이카와</div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro tracking-wide">치이카와</div>
+          <button class="like-btn text-gray-300 hover:text-pink-500 transition-colors focus:outline-none flex items-center gap-0.5" data-liked="false" data-id="chiikawa">
+            <svg class="w-5 h-5 fill-current stroke-current" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span class="like-count text-xs text-gray-400 font-mono">18</span>
+          </button>
+        </div>
         <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">사실 친구가 뽑아줌</div>
       </div>
 
@@ -106,7 +200,15 @@
         <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
           <img src="인형_키티.png" alt="키티" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
         </div>
-        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">키티</div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro tracking-wide">키티</div>
+          <button class="like-btn text-gray-300 hover:text-pink-500 transition-colors focus:outline-none flex items-center gap-0.5" data-liked="false" data-id="kitty">
+            <svg class="w-5 h-5 fill-current stroke-current" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span class="like-count text-xs text-gray-400 font-mono">31</span>
+          </button>
+        </div>
         <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">친구가 한 번에 뽑아줌</div>
       </div>
 
@@ -115,7 +217,15 @@
         <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
           <img src="인형_한교곰.png" alt="한교곰" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
         </div>
-        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">한교곰</div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro tracking-wide">한교곰</div>
+          <button class="like-btn text-gray-300 hover:text-pink-500 transition-colors focus:outline-none flex items-center gap-0.5" data-liked="false" data-id="hanggyobear">
+            <svg class="w-5 h-5 fill-current stroke-current" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span class="like-count text-xs text-gray-400 font-mono">15</span>
+          </button>
+        </div>
         <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">친구가 뽑아줌</div>
       </div>
 
@@ -124,7 +234,15 @@
         <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
           <img src="인형_루피시계.png" alt="루피시계" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
         </div>
-        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">루피시계</div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro tracking-wide">루피시계</div>
+          <button class="like-btn text-gray-300 hover:text-pink-500 transition-colors focus:outline-none flex items-center gap-0.5" data-liked="false" data-id="loopyclock">
+            <svg class="w-5 h-5 fill-current stroke-current" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span class="like-count text-xs text-gray-400 font-mono">42</span>
+          </button>
+        </div>
         <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">친구가 뽑아줌</div>
       </div>
 
@@ -133,7 +251,15 @@
         <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
           <img src="인형_만두.png" alt="만두" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
         </div>
-        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">만두</div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro tracking-wide">만두</div>
+          <button class="like-btn text-gray-300 hover:text-pink-500 transition-colors focus:outline-none flex items-center gap-0.5" data-liked="false" data-id="mandoo">
+            <svg class="w-5 h-5 fill-current stroke-current" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span class="like-count text-xs text-gray-400 font-mono">27</span>
+          </button>
+        </div>
         <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">500원에 뽑음</div>
       </div>
 
@@ -142,7 +268,15 @@
         <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
           <img src="인형_시노부.png" alt="베개인형" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
         </div>
-        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">베개인형</div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro tracking-wide">베개인형</div>
+          <button class="like-btn text-gray-300 hover:text-pink-500 transition-colors focus:outline-none flex items-center gap-0.5" data-liked="false" data-id="shinobu">
+            <svg class="w-5 h-5 fill-current stroke-current" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span class="like-count text-xs text-gray-400 font-mono">22</span>
+          </button>
+        </div>
         <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">친구가 뽑아줌</div>
       </div>
 
@@ -151,7 +285,15 @@
         <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
           <img src="인형_우사기.png" alt="우사기" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
         </div>
-        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">우사기</div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro tracking-wide">우사기</div>
+          <button class="like-btn text-gray-300 hover:text-pink-500 transition-colors focus:outline-none flex items-center gap-0.5" data-liked="false" data-id="usagi">
+            <svg class="w-5 h-5 fill-current stroke-current" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span class="like-count text-xs text-gray-400 font-mono">35</span>
+          </button>
+        </div>
         <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">지퍼도 열림</div>
       </div>
 
@@ -160,7 +302,15 @@
         <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
           <img src="인형_시계.jpg" alt="시계" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300" onerror="if(this.src.indexOf('.jpg') !== -1) this.src=this.src.replace('.jpg', '.png');">
         </div>
-        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">시계</div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro tracking-wide">시계</div>
+          <button class="like-btn text-gray-300 hover:text-pink-500 transition-colors focus:outline-none flex items-center gap-0.5" data-liked="false" data-id="clock">
+            <svg class="w-5 h-5 fill-current stroke-current" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span class="like-count text-xs text-gray-400 font-mono">19</span>
+          </button>
+        </div>
         <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">500원 한번에 뽑음</div>
       </div>
 
@@ -169,7 +319,15 @@
         <div class="w-full aspect-square flex items-center justify-center p-4 mb-4">
           <img src="인형_바나나.png" alt="바나나" class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300">
         </div>
-        <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro mb-2 tracking-wide">바나나</div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-black text-white px-3 py-1 text-xs font-semibold rounded-sm font-retro tracking-wide">바나나</div>
+          <button class="like-btn text-gray-300 hover:text-pink-500 transition-colors focus:outline-none flex items-center gap-0.5" data-liked="false" data-id="banana">
+            <svg class="w-5 h-5 fill-current stroke-current" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span class="like-count text-xs text-gray-400 font-mono">14</span>
+          </button>
+        </div>
         <div class="text-xs text-gray-600 text-center font-normal leading-relaxed">친구가 뽑아줌</div>
       </div>
 
@@ -239,6 +397,44 @@
           item.classList.add("bg-pink-50", "text-pink-500");
           item.classList.remove("text-gray-600");
         }
+      });
+
+      // 3. 좋아요(하트) 인터랙션 및 로컬스토리지 저장 로직
+      const likeButtons = document.querySelectorAll(".like-btn");
+      
+      // 로컬스토리지에서 기존 좋아요 상태 불러오기
+      const likedState = JSON.parse(localStorage.getItem("likedDolls") || "{}");
+
+      likeButtons.forEach(btn => {
+        const dollId = btn.getAttribute("data-id");
+        const countSpan = btn.querySelector(".like-count");
+        const baselineCount = parseInt(countSpan.textContent, 10);
+
+        // 이전 저장 상태 적용
+        if (likedState[dollId]) {
+          btn.setAttribute("data-liked", "true");
+          btn.classList.add("heart-active");
+          countSpan.textContent = baselineCount + 1;
+        }
+
+        btn.addEventListener("click", function() {
+          const isLiked = this.getAttribute("data-liked") === "true";
+          const currentLikedState = JSON.parse(localStorage.getItem("likedDolls") || "{}");
+
+          if (isLiked) {
+            this.setAttribute("data-liked", "false");
+            this.classList.remove("heart-active");
+            countSpan.textContent = baselineCount;
+            delete currentLikedState[dollId];
+          } else {
+            this.setAttribute("data-liked", "true");
+            this.classList.add("heart-active");
+            countSpan.textContent = baselineCount + 1;
+            currentLikedState[dollId] = true;
+          }
+
+          localStorage.setItem("likedDolls", JSON.stringify(currentLikedState));
+        });
       });
     });
   </script>

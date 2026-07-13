@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>인형뽑기 archive</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: 둥근모꼴 및 깔끔한 본문용 Noto Sans KR -->
+  <link rel="stylesheet" href="https://cdn.tailwindcss.com/gh/projectnoonnu/noonfonts_2105_2@1.0/DungGeunMo.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* 전체 페이지 스크롤 방지 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden; /* 전체 외부 스크롤 원천 금지 */
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f7f9fa;
+      color: #1a1a1a;
+    }
+
+    /* 섹션 기본 스타일: 활성화되기 전에는 완전히 숨김 */
+    section {
+      display: none; 
+      height: calc(100vh - 60px); /* 상단 헤더 제외 높이 */
+      width: 100%;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      overflow-y: auto; /* 내용이 넘치는 쇼케이스, 팁 등은 내부 스크롤 허용 */
+    }
+
+    /* 활성화된 섹션 레이아웃 */
+    section.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .font-retro {
+      font-family: 'DungGeunMo', monospace;
+    }
+
+    /* 연노랑 네온 타이틀 (요청하신 연노랑 컬러 적용) */
+    .retro-neon-title {
+      font-family: 'DungGeunMo', monospace;
+      color: #fffa80;
+      text-shadow: 
+        -2px -2px 0 #fff,  
+         2px -2px 0 #fff,
+        -2px  2px 0 #fff,
+         2px  2px 0 #fff,
+         0 0 8px rgba(255, 42, 141, 0.9),
+         0 0 20px rgba(255, 42, 141, 0.7);
+    }
+
+    /* 드래그 가능한 스티커 스타일 */
+    .drag-sticker {
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      z-index: 10;
+    }
+    .drag-sticker:active {
+      cursor: grabbing;
+      z-index: 50;
+    }
+
+    /* 상단 메뉴 활성화 상태 */
+    .nav-active {
+      color: #ec4899 !important;
+      font-weight: 700;
+      border-bottom: 2px solid #ec4899;
+    }
+
+    /* 미니멀 스크롤바 */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ddd;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="selection:bg-pink-100">
+
+  <!-- 상단 고정 네비게이션 바 (모든 탭 정상 이동 보장) -->
+  <header class="fixed top-0 left-0 w-full h-[60px] bg-white/90 backdrop-blur-md border-b border-gray-100 z-[100] px-6 flex items-center">
+    <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+      <div class="font-retro text-xl tracking-wider text-gray-800 select-none cursor-pointer" onclick="showSection('hero')">🧸 archive</div>
+      
+      <!-- 데스크톱 전용 메뉴 -->
+      <nav class="hidden md:flex space-x-8 text-sm font-medium text-gray-500">
+        <a href="javascript:void(0)" onclick="showSection('hero')" id="link-hero" class="nav-link py-1">Home</a>
+        <a href="javascript:void(0)" onclick="showSection('showcase')" id="link-showcase" class="nav-link py-1">Showcase</a>
+        <a href="javascript:void(0)" onclick="showSection('tour')" id="link-tour" class="nav-link py-1">Shop Tour</a>
+        <a href="javascript:void(0)" onclick="showSection('tips')" id="link-tips" class="nav-link py-1">Tips</a>
+        <a href="javascript:void(0)" onclick="showSection('game')" id="link-game" class="nav-link py-1">Play</a>
+      </nav>
+
+      <!-- 모바일용 햄버거 토글 -->
+      <button id="hamburger-btn" class="md:hidden text-gray-600 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+    </div>
+
+    <!-- 모바일 전용 오버레이 풀다운 메뉴 -->
+    <div id="mobile-menu" class="hidden absolute top-[60px] left-0 w-full bg-white border-b border-gray-100 flex flex-col p-4 space-y-4 shadow-xl md:hidden z-50">
+      <a href="javascript:void(0)" onclick="showSection('hero')" class="mobile-nav-link text-gray-600 font-medium">Home</a>
+      <a href="javascript:void(0)" onclick="showSection('showcase')" class="mobile-nav-link text-gray-600 font-medium">Showcase</a>
+      <a href="javascript:void(0)" onclick="showSection('tour')" class="mobile-nav-link text-gray-600 font-medium">Shop Tour</a>
+      <a href="javascript:void(0)" onclick="showSection('tips')" class="mobile-nav-link text-gray-600 font-medium">Tips</a>
+      <a href="javascript:void(0)" onclick="showSection('game')" class="mobile-nav-link text-gray-600 font-medium">Play</a>
+    </div>
+  </header>
+
+  <!-- SECTION 1: HOME (스티커 아카이브 및 드래그 보드) -->
+  <section id="hero" class="active items-center justify-start pt-16 select-none">
+    <div class="absolute inset-0 bg-[radial-gradient(#ffd5e5_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none"></div>
+    <div class="text-center z-10 px-4 mt-8">
+      <h1 class="retro-neon-title text-5xl md:text-7xl tracking-wide mb-3">인형뽑기 archive</h1>
+      <p class="text-xs text-gray-400 font-retro tracking-widest uppercase">drag the stickers & find the joy</p>
+    </div>
+
+    <!-- 둥둥 떠서 자유롭게 밀고 당기는 큼직한 실물 스티커 레이어 -->
+    <div class="absolute inset-0 w-full h-full pointer-events-none">
+      <!-- 1. 핑구 -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:25%; left:6%; width:155px;"><img src="image-removebg-preview.png" class="w-full pointer-events-none"></div>
+      <!-- 2. 치이카와 -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:26%; right:8%; width:145px;"><img src="인형_곰팅.png" class="w-full pointer-events-none"></div>
+      <!-- 3. 키티 -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:45%; left:12%; width:130px;"><img src="인형_키티.png" class="w-full rounded-2xl pointer-events-none"></div>
+      <!-- 4. 한교곰 -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:43%; right:12%; width:130px;"><img src="인형_한교곰.png" class="w-full rounded-2xl pointer-events-none"></div>
+      <!-- 5. 만두 -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:35%; left:38%; width:115px;"><img src="인형_만두.png" class="w-full pointer-events-none"></div>
+      <!-- 6. 루피시계 -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:55%; left:32%; width:145px;"><img src="인형_루피시계.png" class="w-full pointer-events-none"></div>
+      <!-- 7. 시노부 -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:66%; left:8%; width:130px;"><img src="인형_시노부.png" class="w-full pointer-events-none"></div>
+      <!-- 8. 우사기 -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:64%; right:10%; width:135px;"><img src="인형_우사기.png" class="w-full pointer-events-none"></div>
+      <!-- 9. 시계 (자동 확장자 폴백 처리 포함) -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:55%; right:28%; width:145px;"><img src="인형_시계.jpg" class="w-full pointer-events-none" onerror="if(this.src.indexOf('.jpg')!==-1)this.src=this.src.replace('.jpg','.png');"></div>
+      <!-- 10. 바나나 -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:72%; left:45%; width:125px;"><img src="인형_바나나.png" class="w-full pointer-events-none"></div>
+      
+      <!-- 데코용 고유 별 스티커 4종 -->
+      <div class="drag-sticker absolute pointer-events-auto" style="top:22%; left:30%; width:70px;"><img src="인형_별1.png" class="w-full pointer-events-none"></div>
+      <div class="drag-sticker absolute pointer-events-auto" style="top:48%; right:40%; width:65px;"><img src="인형_별2.png" class="w-full pointer-events-none"></div>
+      <div class="drag-sticker absolute pointer-events-auto" style="top:20%; right:28%; width:60px;"><img src="인형_별3.png" class="w-full pointer-events-none"></div>
+      <div class="drag-sticker absolute pointer-events-auto" style="top:60%; left:24%; width:65px;"><img src="인형_별4.png" class="w-full pointer-events-none"></div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: SHOWCASE (실물 컬렉터 그리드) -->
+  <section id="showcase" class="py-16 px-6">
+    <div class="max-w-5xl mx-auto w-full">
+      <div class="mb-14 text-center">
+        <h2 class="font-retro text-3xl text-gray-800 tracking-wider">Showcase</h2>
+        <p class="text-xs text-gray-400 mt-2">내가 소소하게 모아온 소중한 친구들</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+        <!-- 배경 상자 없이 깔끔하게 오브젝트만 돋보이는 쇼케이스 레이아웃 -->
+        <div class="flex flex-col items-center"><img src="image-removebg-preview.png" class="w-full aspect-square object-contain mb-4 filter drop-shadow-md hover:scale-105 transition-transform"><div class="bg-black text-white px-3 py-1 text-[10px] font-retro">핑구</div><p class="text-[11px] mt-2 text-gray-500 text-center">엄청 큰 인형인데 한 번에 뽑음</p></div>
+        <div class="flex flex-col items-center"><img src="인형_곰팅.png" class="w-full aspect-square object-contain mb-4 filter drop-shadow-md hover:scale-105 transition-transform"><div class="bg-black text-white px-3 py-1 text-[10px] font-retro">치이카와</div><p class="text-[11px] mt-2 text-gray-500 text-center">사실 친구가 뽑아줌</p></div>
+        <div class="flex flex-col items-center"><img src="인형_키티.png" class="w-full aspect-square object-contain mb-4 filter drop-shadow-md rounded-2xl hover:scale-105 transition-transform"><div class="bg-black text-white px-3 py-1 text-[10px] font-retro">키티</div><p class="text-[11px] mt-2 text-gray-500 text-center">친구가 한 번에 뽑아줌</p></div>
+        <div class="flex flex-col items-center"><img src="인형_한교곰.png" class="w-full aspect-square object-contain mb-4 filter drop-shadow-md rounded-2xl hover:scale-105 transition-transform"><div class="bg-black text-white px-3 py-1 text-[10px] font-retro">한교곰</div><p class="text-[11px] mt-2 text-gray-500 text-center">친구가 뽑아줌</p></div>
+        <div class="flex flex-col items-center"><img src="인형_루피시계.png" class="w-full aspect-square object-contain mb-4 filter drop-shadow-md hover:scale-105 transition-transform"><div class="bg-black text-white px-3 py-1 text-[10px] font-retro">루피시계</div><p class="text-[11px] mt-2 text-gray-500 text-center">친구가 뽑아줌</p></div>
+        <div class="flex flex-col items-center"><img src="인형_만두.png" class="w-full aspect-square object-contain mb-4 filter drop-shadow-md hover:scale-105 transition-transform"><div class="bg-black text-white px-3 py-1 text-[10px] font-retro">만두</div><p class="text-[11px] mt-2 text-gray-500 text-center">500원에 뽑음</p></div>
+        <div class="flex flex-col items-center"><img src="인형_시노부.png" class="w-full aspect-square object-contain mb-4 filter drop-shadow-md hover:scale-105 transition-transform"><div class="bg-black text-white px-3 py-1 text-[10px] font-retro">베개인형</div><p class="text-[11px] mt-2 text-gray-500 text-center">친구가 뽑아줌</p></div>
+        <div class="flex flex-col items-center"><img src="인형_우사기.png" class="w-full aspect-square object-contain mb-4 filter drop-shadow-md hover:scale-105 transition-transform"><div class="bg-black text-white px-3 py-1 text-[10px] font-retro">우사기</div><p class="text-[11px] mt-2 text-gray-500 text-center">지퍼도 열림</p></div>
+        <div class="flex flex-col items-center"><img src="인형_시계.jpg" onerror="this.src='인형_시계.png'" class="w-full aspect-square object-contain mb-4 filter drop-shadow-md hover:scale-105 transition-transform"><div class="bg-black text-white px-3 py-1 text-[10px] font-retro">시계</div><p class="text-[11px] mt-2 text-gray-500 text-center">500원 한번에 뽑음</p></div>
+        <div class="flex flex-col items-center"><img src="인형_바나나.png" class="w-full aspect-square object-contain mb-4 filter drop-shadow-md hover:scale-105 transition-transform"><div class="bg-black text-white px-3 py-1 text-[10px] font-retro">바나나</div><p class="text-[11px] mt-2 text-gray-500 text-center">친구가 뽑아줌</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: SHOP TOUR (전국의 인형뽑기방 탐방기) -->
+  <section id="tour" class="py-16 px-6 bg-[#faf9f6]">
+    <div class="max-w-4xl mx-auto w-full">
+      <div class="mb-14 text-center">
+        <h2 class="font-retro text-3xl text-gray-800 tracking-wider">Shop Tour</h2>
+        <p class="text-xs text-gray-400 mt-2">직접 발로 뛰며 검증한 최애 인형뽑기방 리스트</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- 건대 앨리스 -->
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center group">
+          <div class="w-full aspect-[4/3] overflow-hidden rounded-2xl mb-4">
+            <img src="인형_뽑기1.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+          </div>
+          <div class="bg-black text-white px-4 py-1 text-xs font-retro">앨리스 인 원더랜드 건대점</div>
+          <p class="text-[11px] text-gray-500 mt-2">#잘뽑히는곳 #탑쌓기성지</p>
+          <p class="text-[11px] text-gray-600 mt-3 text-center leading-relaxed max-w-xs">건대 입구 근처에서 손맛 보기 가장 좋은 곳. 집게 힘이 다른 곳보다 정직하고 탑 쌓기 기술을 발휘하기 최적의 지형이다.</p>
+        </div>
+        <!-- DMC 조이랜드 -->
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center group">
+          <div class="w-full aspect-[4/3] overflow-hidden rounded-2xl mb-4">
+            <img src="인형_뽑기2.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+          </div>
+          <div class="bg-black text-white px-4 py-1 text-xs font-retro">조이랜드 dmc점</div>
+          <p class="text-[11px] text-gray-500 mt-2">#자주가는곳 #단골방앗간</p>
+          <p class="text-[11px] text-gray-600 mt-3 text-center leading-relaxed max-w-xs">일상 속 공부하다 지칠 때나 참새 방앗간처럼 들르는 단골 매장. 라인업 회전이 빠르고 가끔 터지는 500원의 잭팟이 매력적.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: TIPS (다양한 다꾸 꼴라주 메모판) -->
+  <section id="tips" class="py-16 px-6 bg-[#fcfbfa]">
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none"></div>
+    <div class="max-w-5xl mx-auto w-full relative">
+      <div class="mb-14 text-center">
+        <h2 class="font-retro text-3xl text-gray-800 tracking-wider">Claw Machine Tips</h2>
+        <p class="text-xs text-gray-400 mt-2">지나다니며 곁눈질로 터득한 소소하고 확실한 꿀팁</p>
+      </div>
+      
+      <!-- 다꾸 감성을 극대화한 파스텔 메모 조각들의 콜라주 그리드 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-12">
+        <!-- Tip 1 -->
+        <div class="relative bg-amber-50 p-6 rounded-lg shadow-md -rotate-2 border border-amber-200/60 hover:rotate-0 hover:scale-[1.03] transition-all duration-300">
+          <div class="absolute -top-3 left-10 w-16 h-5 bg-yellow-200/40 border-l border-r border-dashed border-yellow-300"></div>
+          <h3 class="text-xs font-bold font-retro mb-2 text-amber-700 flex items-center gap-1.5">
+            <span class="bg-amber-100 px-1.5 py-0.5 rounded">01</span> 집게 흔들기
+          </h3>
+          <p class="text-[11px] text-gray-600 leading-relaxed">집게를 빙글빙글 계속 흔들어 요동치게 타이밍을 노리며 내려보자. 변칙적인 흔들림 속에 집게가 가장 힘있게 닫히는 타이밍이 있다.</p>
+        </div>
+        <!-- Tip 2 -->
+        <div class="relative bg-rose-50 p-6 rounded-lg shadow-md rotate-3 border border-rose-200/60 hover:rotate-0 hover:scale-[1.03] transition-all duration-300">
+          <div class="absolute -top-3 right-10 w-16 h-5 bg-pink-200/40 border-l border-r border-dashed border-pink-300"></div>
+          <h3 class="text-xs font-bold font-retro mb-2 text-rose-700 flex items-center gap-1.5">
+            <span class="bg-rose-100 px-1.5 py-0.5 rounded">02</span> 철저한 탑 형성
+          </h3>
+          <p class="text-[11px] text-gray-600 leading-relaxed">출구 근처에 다른 인형이 수북하게 쌓여있는 곳을 타겟팅하자. 들어 올리는 게 힘겨우면, 옆에서 밀치기로 탑 너머 굴리는 법이 직관적이다.</p>
+        </div>
+        <!-- Tip 3 -->
+        <div class="relative bg-emerald-50 p-6 rounded-lg shadow-md -rotate-1 border border-emerald-200/60 hover:rotate-0 hover:scale-[1.03] transition-all duration-300">
+          <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-emerald-200/30"></div>
+          <h3 class="text-xs font-bold font-retro mb-2 text-emerald-700 flex items-center gap-1.5">
+            <span class="bg-emerald-100 px-1.5 py-0.5 rounded">03</span> 고무집게 공략
+          </h3>
+          <p class="text-[11px] text-gray-600 leading-relaxed">삼발이 집게 끝에 고무 코팅 마감이 되어 있는 기계는 마찰력이 무척 좋다. 박스 패키지나 틈새에 고무를 꽉 물리도록 사선 조준하자.</p>
+        </div>
+        <!-- Tip 4 -->
+        <div class="relative bg-purple-50 p-6 rounded-lg shadow-md rotate-2 border border-purple-200/60 hover:rotate-0 hover:scale-[1.03] transition-all duration-300">
+          <h3 class="text-xs font-bold font-retro mb-2 text-purple-700 flex items-center gap-1.5">
+            <span class="bg-purple-100 px-1.5 py-0.5 rounded">04</span> 고리 노치 낚시
+          </h3>
+          <p class="text-[11px] text-gray-600 leading-relaxed">몸통이 너무 거대하고 미끄러워서 자꾸 놓치게 되는 곰돌이 인형 등은, 머리 꼭대기 고리나 패브릭 택 끈 구멍을 갈퀴 끝으로 꿰뚫어 낚아보자.</p>
+        </div>
+        <!-- Tip 5 -->
+        <div class="relative bg-sky-50 p-6 rounded-lg shadow-md -rotate-3 border border-sky-200/60 hover:rotate-0 hover:scale-[1.03] transition-all duration-300">
+          <div class="absolute -top-3 left-6 w-16 h-5 bg-sky-200/40 border-l border-r border-dashed border-sky-300"></div>
+          <h3 class="text-xs font-bold font-retro mb-2 text-sky-700 flex items-center gap-1.5">
+            <span class="bg-sky-100 px-1.5 py-0.5 rounded">05</span> 큰 그림 그리기
+          </h3>
+          <p class="text-[11px] text-gray-600 leading-relaxed">욕심 부리지 않는 차분한 마인드가 절약을 만든다. 입구와 먼 인형은 무리해서 들어 올리지 말고 한두 판 투자를 통해 굴려서 가깝게 전진 배치해 두자.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: PLAY (미니 인형뽑기 기계) -->
+  <section id="game" class="bg-zinc-900 flex items-center justify-center pt-0">
+    <div class="max-w-lg w-full flex flex-col items-center">
+      <!-- 큼직하게 확장된 1인칭 기계 전경 프레임 -->
+      <div class="w-full relative bg-zinc-800 rounded-3xl border-8 border-cyan-500 overflow-hidden aspect-[4/5] flex flex-col shadow-2xl">
+        <div class="w-full h-6 bg-gradient-to-b from-white/20 to-transparent flex items-center justify-center">
+          <div class="text-[9px] font-retro text-cyan-400 tracking-wider">READY TO CLAW</div>
+        </div>
+        
+        <!-- 실시간 렌더링 캔버스 영역 -->
+        <div class="flex-1 relative bg-gradient-to-b from-zinc-900 to-indigo-950 overflow-hidden">
+          <div class="absolute top-4 right-4 bg-black/60 px-3 py-1.5 rounded-lg text-right z-30 border border-pink-500/20">
+            <span class="block text-[8px] font-retro text-pink-400">SCORE</span>
+            <span id="score-display" class="font-retro text-white text-base">00</span>
+          </div>
+          
+          <canvas id="claw-canvas" class="w-full h-full block"></canvas>
+          
+          <!-- 성공 안내 모달 (설명 없이 오직 이름만 크게 노출) -->
+          <div id="win-modal" class="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center z-40 opacity-0 pointer-events-none transition-opacity duration-300">
+            <div class="bg-zinc-800 p-6 rounded-2xl border-2 border-pink-500 text-center transform scale-95 transition-transform duration-300">
+              <span class="text-3xl">🎉</span>
+              <h3 class="font-retro text-pink-400 text-lg mt-2">인형 획득 완료!</h3>
+              <p class="text-white font-bold text-xl mt-3" id="prize-name">인형 이름</p>
+              <button onclick="closeWinModal()" class="mt-5 px-5 py-1.5 bg-pink-500 text-white text-xs font-retro rounded-lg hover:bg-pink-600 transition-colors">다시하기</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 하단 조작 패널 -->
+        <div class="h-28 bg-zinc-900 flex items-center justify-around px-4 border-t border-zinc-700/80">
+          <div class="flex items-center gap-2">
+            <div class="relative w-16 h-16 bg-zinc-800 rounded-full border border-zinc-700 flex items-center justify-center shadow-inner">
+              <div id="joystick-head" class="w-8 h-8 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full shadow-lg border-2 border-white/40 cursor-pointer active:scale-95 transition-transform"></div>
+            </div>
+            <div class="flex flex-col text-[8px] font-retro text-zinc-500">
+              <span>JOYSTICK</span>
+              <span>L/R DRAG</span>
+            </div>
+          </div>
+          <button id="drop-btn" class="w-16 h-16 bg-gradient-to-b from-emerald-400 to-emerald-600 border-2 border-white/20 rounded-full text-white font-retro text-xs shadow-lg active:scale-95 transition-transform">DROP</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 푸터 -->
+  <footer class="py-6 bg-zinc-900 border-t border-zinc-800 text-center text-xs text-zinc-600 font-retro tracking-widest z-10">
+    &copy; 2026 INHYEONGBPOBGI ARCHIVE. ALL RIGHTS DRAGGED.
+  </footer>
+
+  <script>
+    /* ==========================================
+       1. 탭 전환 메커니즘 (정확하고 깔끔한 라우팅)
+       ========================================== */
+    function showSection(id) {
+      const sections = document.querySelectorAll('section');
+      sections.forEach(s => s.classList.remove('active'));
+      
+      const activeSection = document.getElementById(id);
+      if (activeSection) {
+        activeSection.classList.add('active');
+      }
+
+      // 데스크톱 강조 클래스
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => link.classList.remove('nav-active'));
+      const activeLink = document.getElementById('link-' + id);
+      if (activeLink) {
+        activeLink.classList.add('nav-active');
+      }
+
+      // 모바일 메뉴 풀다운 닫기
+      document.getElementById('mobile-menu').classList.add('hidden');
+
+      // 플레이 화면 전환 시 디스플레이 크기 동적 할당 및 재설정
+      if (id === 'game') {
+        initGame();
+      }
+    }
+
+    // 모바일 햄버거 노출/숨김
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    hamburgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    /* ==========================================
+       2. 홈 화면 스티커 자연스러운 드래그 모듈
+       ========================================== */
+    const stickers = document.querySelectorAll('.drag-sticker');
+
+    stickers.forEach(sticker => {
+      let isDragging = false;
+      let startX, startY;
+      let currentX = 0;
+      let currentY = 0;
+
+      const transform = sticker.style.transform;
+      let initialRotation = "";
+      if (transform) {
+        initialRotation = transform; 
+      }
+
+      sticker.addEventListener('mousedown', startDrag);
+      sticker.addEventListener('touchstart', startDrag, { passive: false });
+
+      function startDrag(e) {
+        isDragging = true;
+        const event = e.touches ? e.touches[0] : e;
+        
+        startX = event.clientX - currentX;
+        startY = event.clientY - currentY;
+
+        sticker.style.transition = "none";
+
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchmove', onDrag, { passive: false });
+        document.addEventListener('touchend', endDrag);
+      }
+
+      function onDrag(e) {
+        if (!isDragging) return;
+        if (e.cancelable) e.preventDefault();
+        
+        const event = e.touches ? e.touches[0] : e;
+        currentX = event.clientX - startX;
+        currentY = event.clientY - startY;
+
+        sticker.style.transform = `translate(${currentX}px, ${currentY}px) ${initialRotation}`;
+      }
+
+      function endDrag() {
+        isDragging = false;
+        sticker.style.transition = "transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+        document.removeEventListener('mousemove', onDrag);
+        document.removeEventListener('mouseup', endDrag);
+        document.removeEventListener('touchmove', onDrag);
+        document.removeEventListener('touchend', endDrag);
+      }
+    });
+
+    /* ==========================================
+       3. 1인칭 인형뽑기 캔버스 엔진 (크기/깊이감 상향 평준화)
+       ========================================== */
+    const canvas = document.getElementById('claw-canvas');
+    const ctx = canvas.getContext('2d');
+    const scoreDisplay = document.getElementById('score-display');
+    const dropBtn = document.getElementById('drop-btn');
+    const joystickHead = document.getElementById('joystick-head');
+
+    let score = 0;
+    let width, height, dolls = [], grabbedToy = null, gameState = "IDLE";
+    let claw = { x: 50, y: 10, targetX: 50, width: 45 };
+
+    // 10종의 모든 에셋 이름 동일화
+    const assets = ['pingu', 'chiikawa', 'kitty', 'hanggyobear', 'loopyclock', 'mandoo', 'shinobu', 'usagi', 'clock', 'banana'];
+    const imgObj = {};
+
+    assets.forEach(name => {
+      imgObj[name] = new Image();
+      if (name === 'pingu') {
+        imgObj[name].src = 'image-removebg-preview.png';
+      } else if (name === 'chiikawa') {
+        imgObj[name].src = '인형_곰팅.png';
+      } else if (name === 'kitty') {
+        imgObj[name].src = '인형_키티.png';
+      } else if (name === 'hanggyobear') {
+        imgObj[name].src = '인형_한교곰.png';
+      } else if (name === 'loopyclock') {
+        imgObj[name].src = '인형_루피시계.png';
+      } else if (name === 'mandoo') {
+        imgObj[name].src = '인형_만두.png';
+      } else if (name === 'shinobu') {
+        imgObj[name].src = '인형_시노부.png';
+      } else if (name === 'usagi') {
+        imgObj[name].src = '인형_우사기.png';
+      } else if (name === 'banana') {
+        imgObj[name].src = '인형_바나나.png';
+      } else if (name === 'clock') {
+        imgObj[name].src = '인형_시계.jpg';
+        imgObj[name].onerror = function() {
+          if (this.src.indexOf('.jpg') !== -1) {
+            this.src = '인형_시계.png';
+          }
+        };
+      }
+    });
+
+    // 동적 기계 내부 인형 적재 함수 (사이즈 상향 조정)
+    function initGame() {
+      width = canvas.parentElement.clientWidth || 400;
+      height = canvas.parentElement.clientHeight || 500;
+      canvas.width = width;
+      canvas.height = height;
+      
+      dolls = [
+        { id: 1, type: 'pingu', x: width * 0.5, y: height - 75, size: 105, label: '핑구', rotation: Math.random() - 0.5 },
+        { id: 2, type: 'chiikawa', x: width * 0.22, y: height - 65, size: 90, label: '치이카와', rotation: Math.random() - 0.5 },
+        { id: 3, type: 'kitty', x: width * 0.76, y: height - 65, size: 85, label: '키티', rotation: Math.random() - 0.5 },
+        { id: 4, type: 'mandoo', x: width * 0.41, y: height - 55, size: 75, label: '만두', rotation: Math.random() - 0.5 },
+        { id: 5, type: 'hanggyobear', x: width * 0.88, y: height - 60, size: 80, label: '한교곰', rotation: Math.random() - 0.5 },
+        { id: 6, type: 'loopyclock', x: width * 0.12, y: height - 60, size: 85, label: '루피시계', rotation: Math.random() - 0.5 },
+        { id: 7, type: 'shinobu', x: width * 0.63, y: height - 70, size: 85, label: '베개인형', rotation: Math.random() - 0.5 },
+        { id: 8, type: 'usagi', x: width * 0.32, y: height - 120, size: 85, label: '우사기', rotation: Math.random() - 0.5 },
+        { id: 9, type: 'clock', x: width * 0.48, y: height - 135, size: 90, label: '시계', rotation: Math.random() - 0.5 },
+        { id: 10, type: 'banana', x: width * 0.70, y: height - 125, size: 80, label: '바나나', rotation: Math.random() - 0.5 }
+      ];
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+
+      // 인형 드로잉 (실제 리소스 기반)
+      dolls.forEach(d => {
+        ctx.save();
+        ctx.translate(d.x, d.y);
+        ctx.rotate(d.rotation);
+        const img = imgObj[d.type];
+        if (img && img.complete && img.naturalWidth !== 0) {
+          ctx.beginPath(); 
+          ctx.arc(0, 0, d.size / 2, 0, Math.PI * 2); 
+          ctx.clip();
+          ctx.drawImage(img, -d.size / 2, -d.size / 2, d.size, d.size);
+          // 뱃지용 화이트 테두리 선
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+          ctx.lineWidth = 4;
+          ctx.stroke();
+        } else {
+          ctx.beginPath();
+          ctx.arc(0, 0, d.size / 2, 0, Math.PI * 2);
+          ctx.fillStyle = "#ff72a1";
+          ctx.fill();
+        }
+        ctx.restore();
+      });
+
+      // 집게 드로잉 (견고하고 굵직한 와이어 및 축 형상)
+      const px = (claw.x / 100) * width;
+      ctx.strokeStyle = "#8e8e93"; 
+      ctx.lineWidth = 4;
+      ctx.beginPath(); 
+      ctx.moveTo(px, 0); 
+      ctx.lineTo(px, claw.y); 
+      ctx.stroke();
+
+      ctx.fillStyle = "#48484a"; 
+      ctx.beginPath(); 
+      ctx.arc(px, claw.y, 12, 0, Math.PI * 2); 
+      ctx.fill();
+
+      // 확장 갈퀴 갈래
+      ctx.lineWidth = 6;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#8e8e93";
+      
+      // 좌측
+      ctx.beginPath(); 
+      ctx.moveTo(px - 5, claw.y); 
+      ctx.quadraticCurveTo(px - claw.width, claw.y + 35, px - 12, claw.y + 65); 
+      ctx.stroke();
+
+      // 우측
+      ctx.beginPath(); 
+      ctx.moveTo(px + 5, claw.y); 
+      ctx.quadraticCurveTo(px + claw.width, claw.y + 35, px + 12, claw.y + 65); 
+      ctx.stroke();
+    }
+
+    function update() {
+      if (gameState === "IDLE") {
+        claw.x += (claw.targetX - claw.x) * 0.12;
+      }
+      if (gameState === "DOWN") {
+        claw.y += 5;
+        // 바닥 근처(height - 90)까지 충분히 도달하도록 하강 리미트 완화
+        if (claw.y > height - 90) {
+          gameState = "GRAB";
+        }
+      }
+      if (gameState === "GRAB") {
+        claw.width = 15; // 오므라들기
+        const px = (claw.x / 100) * width;
+        // 포착 반경 상향
+        dolls.forEach(d => {
+          if (!grabbedToy && Math.abs(d.x - px) < 45 && Math.abs(d.y - (claw.y + 35)) < 60) {
+            grabbedToy = d;
+          }
+        });
+        setTimeout(() => {
+          gameState = "UP";
+        }, 300);
+      }
+      if (gameState === "UP") {
+        claw.y -= 4.5;
+        if (grabbedToy) { 
+          grabbedToy.x = (claw.x / 100) * width; 
+          grabbedToy.y = claw.y + 40; 
+          grabbedToy.rotation += 0.05;
+        }
+        if (claw.y <= 15) { 
+          claw.y = 15; 
+          gameState = "MOVE_EXIT"; 
+        }
+      }
+      if (gameState === "MOVE_EXIT") {
+        claw.x -= 2;
+        if (grabbedToy) { 
+          grabbedToy.x = (claw.x / 100) * width; 
+          grabbedToy.y = claw.y + 40; 
+        }
+        if (claw.x <= 10) { 
+          if (grabbedToy) {
+            // 이름만 깔끔하게 노출하도록 수정 완료
+            document.getElementById('prize-name').innerText = `[ ${grabbedToy.label} ]`;
+            document.getElementById('win-modal').classList.remove('opacity-0', 'pointer-events-none');
+            dolls = dolls.filter(d => d.id !== grabbedToy.id);
+            grabbedToy = null;
+            score += 10;
+            scoreDisplay.innerText = score < 10 ? '0' + score : score;
+          }
+          gameState = "IDLE"; 
+          claw.width = 45;
+        }
+      }
+    }
+
+    function loop() { 
+      update(); 
+      draw(); 
+      requestAnimationFrame(loop); 
+    }
+
+    dropBtn.addEventListener('click', () => { 
+      if (gameState === "IDLE") gameState = "DOWN"; 
+    });
+
+    function closeWinModal() { 
+      document.getElementById('win-modal').classList.add('opacity-0', 'pointer-events-none'); 
+      if (dolls.length === 0) initGame(); 
+    }
+
+    // 키보드 조작 대응
+    window.addEventListener('keydown', (e) => {
+      if (gameState !== "IDLE") return;
+      if (e.key === "ArrowLeft") {
+        claw.targetX = Math.max(8, claw.targetX - 5);
+      } else if (e.key === "ArrowRight") {
+        claw.targetX = Math.min(92, claw.targetX + 5);
+      } else if (e.key === " " || e.key === "Spacebar") {
+        e.preventDefault();
+        if (gameState === "IDLE") gameState = "DOWN";
+      }
+    });
+
+    // 모바일 조이스틱 드래그 핸들링
+    let activeJoystick = false;
+    let joyStartX;
+
+    joystickHead.addEventListener('mousedown', startJoy);
+    joystickHead.addEventListener('touchstart', startJoy, { passive: false });
+
+    function startJoy(e) {
+      if (gameState !== "IDLE") return;
+      activeJoystick = true;
+      const event = e.touches ? e.touches[0] : e;
+      joyStartX = event.clientX;
+
+      document.addEventListener('mousemove', moveJoy);
+      document.addEventListener('mouseup', endJoy);
+      document.addEventListener('touchmove', moveJoy, { passive: false });
+      document.addEventListener('touchend', endJoy);
+    }
+
+    function moveJoy(e) {
+      if (!activeJoystick) return;
+      if (e.cancelable) e.preventDefault();
+
+      const event = e.touches ? e.touches[0] : e;
+      const deltaX = event.clientX - joyStartX;
+      
+      const maxDist = 18;
+      const moveX = Math.max(-maxDist, Math.min(maxDist, deltaX));
+      
+      joystickHead.style.transform = `translate(${moveX}px, 0px)`;
+
+      const sens = 0.55;
+      claw.targetX = Math.max(8, Math.min(92, claw.targetX + (moveX * sens)));
+    }
+
+    function endJoy() {
+      activeJoystick = false;
+      joystickHead.style.transform = `translate(0, 0)`;
+      document.removeEventListener('mousemove', moveJoy);
+      document.removeEventListener('mouseup', endJoy);
+      document.removeEventListener('touchmove', moveJoy);
+      document.removeEventListener('touchend', endJoy);
+    }
+
+    window.onload = () => {
+      showSection('hero');
+    };
+  </script>
+</body>
+</html>

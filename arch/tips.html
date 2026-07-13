@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>인형뽑기 아카이브 - Tips</title>
   
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts: 둥근모꼴 및 Noto Sans KR -->
   <link rel="stylesheet" href="https://cdn.tailwindcss.com/gh/projectnoonnu/noonfonts_2105_2@1.0/DungGeunMo.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 
@@ -19,6 +17,17 @@
     }
     .font-retro {
       font-family: 'DungGeunMo', monospace;
+    }
+    
+    /* 윈도우/크롬 브라우저 전용 둥근모 폰트 굵기 버그 방지 및 강제 볼딩 헬퍼 클래스 */
+    .font-retro-bold {
+      font-family: 'DungGeunMo', monospace;
+      font-weight: 700;
+      /* 크로스 브라우저에서 일관되게 굵게 보이도록 정밀 섀도우 보정 부여 */
+      text-shadow: 0.3px 0 0 currentColor, -0.3px 0 0 currentColor, 0 0.3px 0 currentColor;
+      /* GPU 가속을 강제하여 호버 트랜지션 시 글자가 떨리거나 굵기가 Popping하는 현상 방지 */
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
   </style>
 </head>
@@ -93,7 +102,8 @@
         
         <div class="flex items-center gap-2 mb-3 mt-2">
           <span class="font-retro text-sm text-amber-600 bg-amber-100/80 px-2 py-0.5 rounded">01</span>
-          <h3 class="text-xs font-bold text-gray-800 font-retro">기계 교란하기 (집게 돌리기)</h3>
+          <!-- 윈도우 환경 대응용 굵기 헬퍼 .font-retro-bold 클래스 일괄 적용 -->
+          <h3 class="text-xs text-gray-800 font-retro-bold">기계 교란하기 (집게 돌리기)</h3>
         </div>
         <p class="text-[11px] text-gray-600 leading-relaxed font-sans">집게를 빙글빙글 계속 흔들며 돌려준다. 집게가 심하게 요동치며 혼란스러울 때 타이밍을 맞춰서 내리면, 의외로 집게가 강하게 오므라들 때가 있다.</p>
         
@@ -110,7 +120,8 @@
         
         <div class="flex items-center gap-2 mb-3 mt-1">
           <span class="font-retro text-sm text-pink-600 bg-pink-100/80 px-2 py-0.5 rounded">02</span>
-          <h3 class="text-xs font-bold text-gray-800 font-retro">탑을 수북하게 쌓아서 밀기</h3>
+          <!-- 윈도우 환경 대응용 굵기 헬퍼 .font-retro-bold 클래스 일괄 적용 -->
+          <h3 class="text-xs text-gray-800 font-retro-bold">탑을 수북하게 쌓아서 밀기</h3>
         </div>
         <p class="text-[11px] text-gray-600 leading-relaxed font-sans">출구 근처에 다른 인형들을 쌓아 높은 탑을 형성하는 게 핵심이다. 직접 들어 올릴 수 없을 정도로 무거우면, 옆으로 밀어서 탑 위로 굴려 떨어뜨리는 방법을 사용하자.</p>
         
@@ -128,7 +139,8 @@
         
         <div class="flex items-center gap-2 mb-3 mt-2">
           <span class="font-retro text-sm text-emerald-600 bg-emerald-100/80 px-2 py-0.5 rounded">03</span>
-          <h3 class="text-xs font-bold text-gray-800 font-retro">박스형 전용 고무집게 공략</h3>
+          <!-- 윈도우 환경 대응용 굵기 헬퍼 .font-retro-bold 클래스 일괄 적용 -->
+          <h3 class="text-xs text-gray-800 font-retro-bold">박스형 전용 고무집게 공략</h3>
         </div>
         <p class="text-[11px] text-gray-600 leading-relaxed font-sans">끝부분에 고무 코팅이 부착되어 있는 집게 기계를 유심히 관찰하자. 박스 형태의 틈새를 확실히 끼워 누르면, 마찰력 덕분에 쉽게 밀려 올라오거나 잡힌다.</p>
       </div>
@@ -142,7 +154,8 @@
         
         <div class="flex items-center gap-2 mb-3 mt-3">
           <span class="font-retro text-sm text-purple-600 bg-purple-100/80 px-2 py-0.5 rounded">04</span>
-          <h3 class="text-xs font-bold text-gray-800 font-retro">대형 인형은 고리를 표적 삼기</h3>
+          <!-- 윈도우 환경 대응용 굵기 헬퍼 .font-retro-bold 클래스 일괄 적용 -->
+          <h3 class="text-xs text-gray-800 font-retro-bold">대형 인형은 고리를 표적 삼기</h3>
         </div>
         <p class="text-[11px] text-gray-600 leading-relaxed font-sans">몸통 전체가 묵직해서 아무리 들어 올려도 집게가 풀리는 경우, 머리 위에 달린 끈이나 열쇠고리에 집게 하나를 정확히 꿰어 올리는 고리 노치 전술을 쓴다.</p>
         
@@ -160,7 +173,8 @@
         
         <div class="flex items-center gap-2 mb-3 mt-1">
           <span class="font-retro text-sm text-sky-600 bg-sky-100/80 px-2 py-0.5 rounded">05</span>
-          <h3 class="text-xs font-bold text-gray-800 font-retro">마인드 컨트롤 (욕심 비우기)</h3>
+          <!-- 윈도우 환경 대응용 굵기 헬퍼 .font-retro-bold 클래스 일괄 적용 -->
+          <h3 class="text-xs text-gray-800 font-retro-bold">마인드 컨트롤 (욕심 비우기)</h3>
         </div>
         <p class="text-[11px] text-gray-600 leading-relaxed font-sans">한 번에 무조건 기계 밖으로 뽑겠다는 마음은 지출만 키운다. 한 턴 쉬어가며 인형을 살짝 굴려 입구 쪽으로 슬금슬금 배치를 옮겨놓는 정밀한 큰 그림 설계가 필수다.</p>
       </div>

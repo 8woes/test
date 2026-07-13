@@ -5,32 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>인형뽑기 아카이브 - Play Simulator</title>
   
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts: 둥근모꼴 및 Noto Sans KR -->
   <link rel="stylesheet" href="https://cdn.tailwindcss.com/gh/projectnoonnu/noonfonts_2105_2@1.0/DungGeunMo.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <style>
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background-color: #f7f9fa; /* 메인 배경색 통일 */
+      background-color: #f7f9fa;
     }
     .font-retro {
       font-family: 'DungGeunMo', monospace;
     }
-    
-    /* 연노랑 빔 네온 폰트 스타일 (메인과 통일) */
     .retro-neon-title {
       font-family: 'DungGeunMo', monospace;
-      color: #fffa80; /* 밝은 연노랑 */
+      color: #fffa80;
       text-shadow: 
         -2px -2px 0 #fff,  
          2px -2px 0 #fff,
         -2px  2px 0 #fff,
          2px  2px 0 #fff,
-         0 0 8px rgba(236, 72, 153, 0.9),  /* 핑크 네온 광채 */
+         0 0 8px rgba(236, 72, 153, 0.9),
          0 0 20px rgba(236, 72, 153, 0.7),
          0 0 35px rgba(236, 72, 153, 0.5);
     }
@@ -38,38 +34,23 @@
 </head>
 <body class="bg-slate-50 min-h-screen flex flex-col justify-between">
 
-  <!-- 
-    ========================================================================
-    [COPY-PASTE START] 확정된 네비게이션 컴포넌트를 그대로 적용했습니다.
-    ========================================================================
-  -->
   <header class="fixed top-0 left-0 w-full h-[64px] bg-white/90 backdrop-blur-md border-b border-gray-100 z-[100] px-6 flex items-center">
     <div class="max-w-7xl mx-auto w-full flex justify-between items-center relative">
-      
-      <!-- 로고 영역 -->
       <a href="home.html" class="font-retro text-xl tracking-wider text-gray-800 select-none hover:opacity-80 transition-opacity">
         🧸 archive
       </a>
-      
-      <!-- 데스크톱 네비게이션 메뉴 (md 이상에서만 노출) -->
       <nav class="hidden md:flex space-x-8 text-sm font-semibold text-gray-500">
-        <!-- data-page 속성에 매칭될 파일명을 적어두면 스크립트가 알아서 활성화 해줍니다. -->
         <a href="home.html" data-page="home" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Home</a>
         <a href="showcase.html" data-page="showcase" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Showcase</a>
         <a href="tour.html" data-page="tour" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Shop Tour</a>
         <a href="tips.html" data-page="tips" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Tips</a>
         <a href="play.html" data-page="play" class="nav-item py-1.5 border-b-2 border-transparent hover:text-pink-500 transition-all">Play Simulator</a>
       </nav>
-
-      <!-- 모바일용 햄버거 토글 버튼 (md 미만에서 노출) -->
       <button id="custom-hamburger-btn" class="md:hidden text-gray-600 focus:outline-none p-1.5 hover:bg-gray-50 rounded-lg transition-colors" aria-label="메뉴 토글">
         <svg class="w-6 h-6 transition-transform duration-300" id="hamburger-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <!-- 기본 삼선 아이콘 -->
           <path id="hamburger-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
-
-      <!-- 모바일 오버레이 풀다운 메뉴 -->
       <div id="custom-mobile-menu" class="hidden absolute top-[48px] right-0 w-52 bg-white border border-gray-100 rounded-2xl flex flex-col p-3 space-y-1 shadow-xl md:hidden z-50">
         <a href="home.html" data-page="home" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Home</a>
         <a href="showcase.html" data-page="showcase" class="mobile-nav-item text-gray-600 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-pink-50 hover:text-pink-500 transition-all">Showcase</a>
@@ -79,43 +60,23 @@
       </div>
     </div>
   </header>
-  <!-- 
-    ========================================================================
-    [COPY-PASTE END] 여기까지가 컴포넌트 영역입니다.
-    ========================================================================
-  -->
 
-  <!-- 메인 콘텐츠 영역 -->
   <main class="max-w-6xl mx-auto w-full px-6 pt-28 pb-16 flex-1 flex flex-col items-center">
-    
-    <!-- 타이틀 영역 -->
     <div class="mb-12 text-center select-none">
       <h2 class="retro-neon-title text-5xl md:text-7xl tracking-wide mb-3">Play Simulator</h2>
       <p class="text-xs text-gray-400 font-retro tracking-widest mt-2 uppercase">1st person perspective multi-machine</p>
     </div>
 
-    <!-- 1인칭 실제 작동 시뮬레이션 게임 컨테이너 -->
     <div class="w-full max-w-4xl bg-white p-6 md:p-8 rounded-3xl border border-gray-100 shadow-sm flex flex-col md:flex-row gap-8 items-center md:items-stretch relative z-10">
-      
-      <!-- 배경 다이어리 도트 패턴 데코 -->
       <div class="absolute inset-0 bg-[radial-gradient(#ffd5e5_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none rounded-3xl"></div>
 
-      <!-- 기계 화면 및 인형 배치 영역 -->
       <div class="w-full md:w-3/5 bg-zinc-900 border-8 border-cyan-400 rounded-3xl aspect-[4/5] flex flex-col relative overflow-hidden select-none shadow-[0_0_25px_rgba(34,211,238,0.5)] z-10">
-        
-        <!-- 화면 유리 반사 효과 -->
         <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none z-10"></div>
-        
-        <!-- 스코어 디스플레이 (DungGeunMo 폰트 및 핑크 네온) -->
         <div class="absolute top-4 right-4 bg-black/60 px-3 py-1.5 rounded-xl border border-pink-500/20 text-right z-20">
           <span class="block text-[8px] font-retro text-pink-400">SCORE</span>
           <span id="score-display" class="font-retro text-base text-white font-bold">00</span>
         </div>
-
-        <!-- 실시간 렌더링 캔버스 -->
         <canvas id="claw-canvas" class="w-full h-full block flex-1 bg-gradient-to-b from-zinc-900 to-indigo-950"></canvas>
-
-        <!-- 성공 안내 모달 (이름만 크게 노출) -->
         <div id="win-modal" class="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center z-40 opacity-0 pointer-events-none transition-opacity duration-300">
           <div class="bg-zinc-800 p-6 rounded-2xl border-2 border-pink-500 text-center transform scale-95 transition-transform duration-300">
             <span class="text-3xl">🎉</span>
@@ -126,10 +87,7 @@
         </div>
       </div>
 
-      <!-- 컨트롤러 패널 영역 -->
       <div class="w-full md:w-2/5 flex flex-col items-center md:items-stretch gap-8 pt-6 select-none z-10 justify-between">
-        
-        <!-- 조이스틱 -->
         <div class="flex flex-col items-center gap-4">
           <span class="font-retro text-xs text-gray-500 tracking-wider">L / R & U / D JOYSTICK</span>
           <div class="w-40 h-40 bg-zinc-800 rounded-full border-4 border-zinc-700 shadow-inner flex items-center justify-center relative">
@@ -138,100 +96,58 @@
             </div>
           </div>
         </div>
-
-        <!-- DROP 버튼 및 설명 -->
         <div class="flex flex-col items-center md:items-stretch justify-end gap-6 md:pb-6 w-full">
-          <!-- DROP 버튼 -->
           <button id="drop-btn" class="w-full h-16 bg-gradient-to-b from-emerald-400 to-emerald-600 active:from-emerald-600 active:to-emerald-700 border-2 border-white/20 rounded-2xl text-white font-retro text-sm font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:scale-[1.01] transition-transform flex items-center justify-center tracking-widest gap-2">
             <span>DROP BUTTON</span>
             <span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded font-sans">SPACE</span>
           </button>
-
           <div class="p-5 bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col gap-3">
             <div class="flex items-center gap-2">
               <span class="text-lg">🕹️</span>
               <span class="font-semibold text-gray-800">조작 방법</span>
             </div>
             <p class="text-xs text-gray-600 leading-relaxed font-sans">
-              조이스틱을 마우스 드래그 또는 터치 드래그로 꺾어 집게를 좌우로 조종하세요.<br>
-              기존의 민감도를 보정하여 아주 미세한 조작도 부드럽게 지원합니다.<br>
-              <strong class="text-pink-500 font-mono">키보드 방향키(←, →) 와 스페이스바(DROP)</strong>로도 정밀 플레이가 가능합니다.
+              드래그로 집게를 이동하고 DROP 버튼으로 뽑으세요.<br>
+              뽑힌 인형은 왼쪽 배출구로 이송됩니다.
             </p>
           </div>
         </div>
       </div>
-
     </div>
   </main>
 
-  <!-- 푸터 영역 -->
   <footer class="py-6 text-center text-xs text-gray-400 border-t border-gray-100 bg-white z-10">
     &copy; 2026 INHYEONGBPOBGI ARCHIVE. ALL RIGHTS RESERVED.
   </footer>
 
-  <!-- 
-    ========================================================================
-    [네비게이션 작동용 필수 자바스크립트 코드 - 복사본 유지]
-    ========================================================================
-  -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const hamburgerBtn = document.getElementById("custom-hamburger-btn");
       const mobileMenu = document.getElementById("custom-mobile-menu");
       const hamburgerPath = document.getElementById("hamburger-path");
-
-      // 1. 모바일 햄버거 토글 열기 / 닫기 기능
       hamburgerBtn.addEventListener("click", function (e) {
         e.stopPropagation();
         mobileMenu.classList.toggle("hidden");
-        
-        // 아이콘을 햄버거(☰) <=> X 마크로 교체
-        if (mobileMenu.classList.contains("hidden")) {
-          hamburgerPath.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
-        } else {
-          hamburgerPath.setAttribute("d", "M6 18L18 6M6 6l12 12");
-        }
+        hamburgerPath.setAttribute("d", mobileMenu.classList.contains("hidden") ? "M4 6h16M4 12h16M4 18h16" : "M6 18L18 6M6 6l12 12");
       });
-
-      // 바깥 영역 클릭 시 모바일 메뉴 자동으로 닫기
       document.addEventListener("click", function (e) {
         if (!mobileMenu.classList.contains("hidden") && !hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
           mobileMenu.classList.add("hidden");
           hamburgerPath.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
         }
       });
-
-      // 2. [핵심] 현재 접속한 페이지 자동 활성화 감지 시스템
       const path = window.location.pathname;
-      let currentPageName = path.split("/").pop();
-      
-      if (currentPageName === "" || currentPageName === "index.html") {
-        currentPageName = "home.html";
-      }
-
+      let currentPageName = path.split("/").pop() || "home.html";
       const activeKey = currentPageName.replace(".html", "");
-
-      // 데스크톱 링크 활성화 하이라이트 부여
-      const desktopItems = document.querySelectorAll(".nav-item");
-      desktopItems.forEach(item => {
-        if (item.getAttribute("data-page") === activeKey) {
-          item.classList.add("text-pink-500", "border-pink-500");
-          item.classList.remove("text-gray-500", "border-transparent");
-        }
+      document.querySelectorAll(".nav-item").forEach(item => {
+        if (item.getAttribute("data-page") === activeKey) item.classList.add("text-pink-500", "border-pink-500");
       });
-
-      // 모바일 링크 활성화 하이라이트 부여
-      const mobileItems = document.querySelectorAll(".mobile-nav-item");
-      mobileItems.forEach(item => {
-        if (item.getAttribute("data-page") === activeKey) {
-          item.classList.add("bg-pink-50", "text-pink-500");
-          item.classList.remove("text-gray-600");
-        }
+      document.querySelectorAll(".mobile-nav-item").forEach(item => {
+        if (item.getAttribute("data-page") === activeKey) item.classList.add("bg-pink-50", "text-pink-500");
       });
     });
   </script>
 
-  <!-- 1인칭 인형뽑기 캔버스 물리 스크립트 엔진 -->
   <script>
     const canvas = document.getElementById('claw-canvas');
     const ctx = canvas.getContext('2d');
@@ -239,53 +155,22 @@
     const dropBtn = document.getElementById('drop-btn');
     const joystickHead = document.getElementById('joystick-head');
 
-    let score = 0;
-    let width, height, dolls = [], grabbedToy = null, gameState = "IDLE";
+    let score = 0, width, height, dolls = [], grabbedToy = null, gameState = "IDLE";
     let claw = { x: 50, y: 15, targetX: 50, width: 45 };
+    let activeJoystick = false, joyStartX = 0, joyOffsetX = 0;
 
-    // 조이스틱 물리 계산용 보정 변수 (이탈 방지 가속 제어)
-    let activeJoystick = false;
-    let joyStartX = 0;
-    let joyOffsetX = 0; // -1 (왼쪽 최대) ~ 1 (오른쪽 최대) 보정 비율
-
-    // 10종의 모든 에셋 로딩 맵 구성
     const assets = ['pingu', 'chiikawa', 'kitty', 'hanggyobear', 'loopyclock', 'mandoo', 'shinobu', 'usagi', 'clock', 'banana'];
     const imgObj = {};
-
     assets.forEach(name => {
       imgObj[name] = new Image();
-      if (name === 'pingu') {
-        imgObj[name].src = 'image-removebg-preview.png';
-      } else if (name === 'chiikawa') {
-        imgObj[name].src = '인형_곰팅.png';
-      } else if (name === 'kitty') {
-        imgObj[name].src = '인형_키티.png';
-      } else if (name === 'hanggyobear') {
-        imgObj[name].src = '인형_한교곰.png';
-      } else if (name === 'loopyclock') {
-        imgObj[name].src = '인형_루피시계.png';
-      } else if (name === 'mandoo') {
-        imgObj[name].src = '인형_만두.png';
-      } else if (name === 'shinobu') {
-        imgObj[name].src = '인형_시노부.png';
-      } else if (name === 'usagi') {
-        imgObj[name].src = '인형_우사기.png';
-      } else if (name === 'banana') {
-        imgObj[name].src = '인형_바나나.png';
-      } else if (name === 'clock') {
-        imgObj[name].src = '인형_시계.jpg';
-        imgObj[name].onerror = function() {
-          if (this.src.indexOf('.jpg') !== -1) {
-            this.src = '인형_시계.png';
-          }
-        };
-      }
+      imgObj[name].src = name === 'pingu' ? 'image-removebg-preview.png' : 
+                         name === 'clock' ? '인형_시계.png' : `인형_${name}.png`;
     });
 
     function resizeCanvas() {
       const container = canvas.parentElement;
-      width = container.clientWidth || 400;
-      height = container.clientHeight || 500;
+      width = container.clientWidth;
+      height = container.clientHeight;
       canvas.width = width;
       canvas.height = height;
       initGame();
@@ -293,215 +178,102 @@
 
     function initGame() {
       dolls = [
-        { id: 1, type: 'pingu', x: width * 0.5, y: height - 75, size: 105, label: '핑구', rotation: Math.random() - 0.5 },
-        { id: 2, type: 'chiikawa', x: width * 0.22, y: height - 65, size: 90, label: '치이카와', rotation: Math.random() - 0.5 },
-        { id: 3, type: 'kitty', x: width * 0.76, y: height - 65, size: 85, label: '키티', rotation: Math.random() - 0.5 },
-        { id: 4, type: 'mandoo', x: width * 0.41, y: height - 55, size: 75, label: '만두', rotation: Math.random() - 0.5 },
-        { id: 5, type: 'hanggyobear', x: width * 0.88, y: height - 60, size: 80, label: '한교곰', rotation: Math.random() - 0.5 },
-        { id: 6, type: 'loopyclock', x: width * 0.12, y: height - 60, size: 85, label: '루피시계', rotation: Math.random() - 0.5 },
-        { id: 7, type: 'shinobu', x: width * 0.63, y: height - 70, size: 85, label: '베개인형', rotation: Math.random() - 0.5 },
-        { id: 8, type: 'usagi', x: width * 0.32, y: height - 120, size: 85, label: '우사기', rotation: Math.random() - 0.5 },
-        { id: 9, type: 'clock', x: width * 0.48, y: height - 135, size: 90, label: '시계', rotation: Math.random() - 0.5 },
-        { id: 10, type: 'banana', x: width * 0.70, y: height - 125, size: 80, label: '바나나', rotation: Math.random() - 0.5 }
+        { id: 1, type: 'pingu', x: width * 0.5, y: height - 75, size: 80, label: '핑구', rotation: 0 },
+        { id: 2, type: 'chiikawa', x: width * 0.22, y: height - 65, size: 70, label: '치이카와', rotation: 0 },
+        { id: 3, type: 'kitty', x: width * 0.76, y: height - 65, size: 70, label: '키티', rotation: 0 },
+        { id: 4, type: 'mandoo', x: width * 0.41, y: height - 55, size: 60, label: '만두', rotation: 0 },
+        { id: 5, type: 'hanggyobear', x: width * 0.88, y: height - 60, size: 70, label: '한교곰', rotation: 0 },
+        { id: 6, type: 'loopyclock', x: width * 0.12, y: height - 60, size: 70, label: '루피시계', rotation: 0 },
+        { id: 7, type: 'shinobu', x: width * 0.63, y: height - 70, size: 70, label: '베개인형', rotation: 0 }
       ];
     }
 
     function draw() {
       ctx.clearRect(0, 0, width, height);
+      
+      // 배출구 구역 (화면 하단 좌측)
+      ctx.fillStyle = "#1e1e2e";
+      ctx.fillRect(0, height - 80, 100, 80);
+      ctx.strokeStyle = "#3b82f6";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(0, height - 80, 100, 80);
 
-      // 인형 드로잉 (동그란 클리핑 기법)
       dolls.forEach(d => {
         ctx.save();
         ctx.translate(d.x, d.y);
         ctx.rotate(d.rotation);
-        const img = imgObj[d.type];
-        if (img && img.complete && img.naturalWidth !== 0) {
-          ctx.beginPath(); 
-          ctx.arc(0, 0, d.size / 2, 0, Math.PI * 2); 
-          ctx.clip();
-          ctx.drawImage(img, -d.size / 2, -d.size / 2, d.size, d.size);
-          // 뱃지용 테두리
-          ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
-          ctx.lineWidth = 4;
-          ctx.stroke();
-        } else {
-          ctx.beginPath();
-          ctx.arc(0, 0, d.size / 2, 0, Math.PI * 2);
-          ctx.fillStyle = "#ff72a1";
-          ctx.fill();
-        }
+        ctx.beginPath();
+        ctx.arc(0, 0, d.size / 2, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(imgObj[d.type] || new Image(), -d.size / 2, -d.size / 2, d.size, d.size);
         ctx.restore();
       });
 
-      // 집게 와이어 드로잉
       const px = (claw.x / 100) * width;
-      ctx.strokeStyle = "#8e8e93"; 
+      ctx.strokeStyle = "#ccc";
       ctx.lineWidth = 4;
-      ctx.beginPath(); 
-      ctx.moveTo(px, 0); 
-      ctx.lineTo(px, claw.y); 
-      ctx.stroke();
-
-      // 집게 지지대 뭉치
-      ctx.fillStyle = "#48484a"; 
-      ctx.beginPath(); 
-      ctx.arc(px, claw.y, 12, 0, Math.PI * 2); 
-      ctx.fill();
-
-      // 양쪽 갈퀴 드로잉
-      ctx.lineWidth = 6;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "#8e8e93";
-      
-      // 좌측 갈퀴
-      ctx.beginPath(); 
-      ctx.moveTo(px - 5, claw.y); 
-      ctx.quadraticCurveTo(px - claw.width, claw.y + 35, px - 12, claw.y + 65); 
-      ctx.stroke();
-
-      // 우측 갈퀴
-      ctx.beginPath(); 
-      ctx.moveTo(px + 5, claw.y); 
-      ctx.quadraticCurveTo(px + claw.width, claw.y + 35, px + 12, claw.y + 65); 
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, claw.y); ctx.stroke();
+      ctx.fillStyle = "#aaa";
+      ctx.beginPath(); ctx.arc(px, claw.y, 10, 0, Math.PI * 2); ctx.fill();
     }
 
     function update() {
-      if (gameState === "IDLE") {
-        // [수정 핵심] 조이스틱이 잡혀있을 때만 루프 내에서 가볍고 자연스럽게 targetX를 일정 비율로 더함
-        if (activeJoystick) {
-          const moveSpeed = 0.55; // 60fps 당 안정적인 갈퀴 이동 보정값
-          claw.targetX = Math.max(8, Math.min(92, claw.targetX + (joyOffsetX * moveSpeed)));
-        }
-        claw.x += (claw.targetX - claw.x) * 0.12;
-      }
-      if (gameState === "DOWN") {
-        claw.y += 5;
-        if (claw.y > height - 90) {
-          gameState = "GRAB";
-        }
-      }
-      if (gameState === "GRAB") {
-        claw.width = 15; // 오므라들기
+      if (gameState === "IDLE" && activeJoystick) {
+        claw.targetX = Math.max(10, Math.min(90, claw.targetX + (joyOffsetX * 0.8)));
+        claw.x += (claw.targetX - claw.x) * 0.1;
+      } else if (gameState === "DOWN") {
+        claw.y += 3;
+        if (claw.y > height - 100) gameState = "GRAB";
+      } else if (gameState === "GRAB") {
         const px = (claw.x / 100) * width;
         dolls.forEach(d => {
-          if (!grabbedToy && Math.abs(d.x - px) < 45 && Math.abs(d.y - (claw.y + 35)) < 60) {
-            grabbedToy = d;
-          }
+          if (!grabbedToy && Math.abs(d.x - px) < 40 && Math.abs(d.y - (claw.y + 40)) < 40) grabbedToy = d;
         });
-        setTimeout(() => {
-          gameState = "UP";
-        }, 300);
-      }
-      if (gameState === "UP") {
-        claw.y -= 4.5;
-        if (grabbedToy) { 
-          grabbedToy.x = (claw.x / 100) * width; 
-          grabbedToy.y = claw.y + 40; 
-          grabbedToy.rotation += 0.05;
-        }
-        if (claw.y <= 15) { 
-          claw.y = 15; 
-          gameState = "MOVE_EXIT"; 
-        }
-      }
-      if (gameState === "MOVE_EXIT") {
-        claw.x -= 2;
-        if (grabbedToy) { 
-          grabbedToy.x = (claw.x / 100) * width; 
-          grabbedToy.y = claw.y + 40; 
-        }
-        if (claw.x <= 10) { 
+        gameState = "UP";
+      } else if (gameState === "UP") {
+        claw.y -= 3;
+        if (grabbedToy) { grabbedToy.x = (claw.x / 100) * width; grabbedToy.y = claw.y + 40; }
+        if (claw.y <= 15) gameState = "MOVE_EXIT";
+      } else if (gameState === "MOVE_EXIT") {
+        claw.x -= 1;
+        if (grabbedToy) { grabbedToy.x = (claw.x / 100) * width; grabbedToy.y = claw.y + 40; }
+        if (claw.x <= 10) {
           if (grabbedToy) {
             document.getElementById('prize-name').innerText = `[ ${grabbedToy.label} ]`;
             document.getElementById('win-modal').classList.remove('opacity-0', 'pointer-events-none');
             dolls = dolls.filter(d => d.id !== grabbedToy.id);
             grabbedToy = null;
             score += 10;
-            scoreDisplay.innerText = score < 10 ? '0' + score : score;
+            scoreDisplay.innerText = score.toString().padStart(2, '0');
           }
-          gameState = "IDLE"; 
-          claw.width = 45;
+          gameState = "IDLE";
         }
       }
     }
 
-    function loop() { 
-      update(); 
-      draw(); 
-      requestAnimationFrame(loop); 
-    }
+    function loop() { update(); draw(); requestAnimationFrame(loop); }
 
-    dropBtn.addEventListener('click', () => { 
-      if (gameState === "IDLE") gameState = "DOWN"; 
+    joystickHead.addEventListener('mousedown', (e) => {
+      activeJoystick = true;
+      joyStartX = e.clientX;
     });
-
-    function closeWinModal() { 
-      document.getElementById('win-modal').classList.add('opacity-0', 'pointer-events-none'); 
-      if (dolls.length === 0) initGame(); 
-    }
-
-    // 키보드 조작 감지
-    window.addEventListener('keydown', (e) => {
-      if (gameState !== "IDLE") return;
-      if (e.key === "ArrowLeft") {
-        claw.targetX = Math.max(8, claw.targetX - 4);
-      } else if (e.key === "ArrowRight") {
-        claw.targetX = Math.min(92, claw.targetX + 4);
-      } else if (e.key === " " || e.key === "Spacebar") {
-        e.preventDefault();
-        if (gameState === "IDLE") gameState = "DOWN";
+    window.addEventListener('mousemove', (e) => {
+      if(activeJoystick) {
+        const delta = e.clientX - joyStartX;
+        joyOffsetX = Math.max(-1, Math.min(1, delta / 50));
+        joystickHead.style.transform = `translateX(${joyOffsetX * 30}px)`;
       }
     });
-
-    // 스마트 조이스틱 드래그 핸들링
-    joystickHead.addEventListener('mousedown', startJoy);
-    joystickHead.addEventListener('touchstart', startJoy, { passive: false });
-
-    function startJoy(e) {
-      if (gameState !== "IDLE") return;
-      activeJoystick = true;
-      const event = e.touches ? e.touches[0] : e;
-      joyStartX = event.clientX;
-      joyOffsetX = 0; // 힘 초기화
-
-      document.addEventListener('mousemove', moveJoy);
-      document.addEventListener('mouseup', endJoy);
-      document.addEventListener('touchmove', moveJoy, { passive: false });
-      document.addEventListener('touchend', endJoy);
-    }
-
-    function moveJoy(e) {
-      if (!activeJoystick) return;
-      if (e.cancelable) e.preventDefault();
-
-      const event = e.touches ? e.touches[0] : e;
-      const deltaX = event.clientX - joyStartX;
-      
-      const maxDist = 18;
-      // 시각적 조이스틱 머리 한계 고정
-      const moveX = Math.max(-maxDist, Math.min(maxDist, deltaX));
-      joystickHead.style.transform = `translate(${moveX}px, 0px)`;
-
-      // [핵심 변경] 위치를 강제로 더하지 않고 가속비율(-1.0 ~ 1.0)만 조용히 반환
-      joyOffsetX = moveX / maxDist;
-    }
-
-    function endJoy() {
+    window.addEventListener('mouseup', () => {
       activeJoystick = false;
       joyOffsetX = 0;
-      joystickHead.style.transform = `translate(0, 0)`;
-      document.removeEventListener('mousemove', moveJoy);
-      document.removeEventListener('mouseup', endJoy);
-      document.removeEventListener('touchmove', moveJoy);
-      document.removeEventListener('touchend', endJoy);
-    }
+      joystickHead.style.transform = `translateX(0px)`;
+    });
 
-    window.onload = () => {
-      resizeCanvas();
-      window.addEventListener('resize', resizeCanvas);
-      loop();
-    };
+    dropBtn.addEventListener('click', () => { if (gameState === "IDLE") gameState = "DOWN"; });
+    function closeWinModal() { document.getElementById('win-modal').classList.add('opacity-0', 'pointer-events-none'); }
+
+    window.onload = () => { resizeCanvas(); loop(); };
   </script>
 </body>
 </html>
